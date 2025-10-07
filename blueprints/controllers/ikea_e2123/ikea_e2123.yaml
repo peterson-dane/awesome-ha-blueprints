@@ -1,6 +1,6 @@
 # Blueprint Metadata
 blueprint:
-  name: Controller - IKEA E2123 SYMFONISK sound remote, gen 2
+  name: Controller - IKEA E2123 SYMFONISK sound remote, gen 2 - Fixed
   description: |
     # Controller - IKEA E2123 SYMFONISK sound remote, gen 2
 
@@ -357,9 +357,9 @@ variables:
       button_dots2_double: [dots_2_double_press]
     zha:
       # source: https://github.com/zigpy/zha-device-handlers/blob/dev/zhaquirks/ikea/symfonisk2.py
-      button_up_short: [move_on_off_8_1_0]
+      button_up_short: [move_with_on_off_8_1_0]
       button_up_long: [move_8_1]
-      button_down_short: [move_on_off_8_1_1]
+      button_down_short: [move_with_on_off_8_1_1]
       button_down_long: [move_8_1_1]
       button_right_short: [step_8_1_0]
       button_left_short: [step_8_1_1]
@@ -536,10 +536,12 @@ triggers:
     event_type: zha_event
     event_data:
       device_id: !input controller_device
-      command: move_on_off
+      command: move_with_on_off
       endpoint_id: 1
       cluster_id: 8
-      args: [0]
+      args:
+        - 0
+        - 255
   - trigger: event
     id: zha-button-up-long
     event_type: zha_event
@@ -555,10 +557,12 @@ triggers:
     event_type: zha_event
     event_data:
       device_id: !input controller_device
-      command: move_on_off
+      command: move_with_on_off
       endpoint_id: 1
       cluster_id: 8
-      args: [1]
+      args:
+        - 1
+        - 255
   - trigger: event
     id: zha-button-down-long
     event_type: zha_event
@@ -577,7 +581,12 @@ triggers:
       command: step
       endpoint_id: 1
       cluster_id: 8
-      args: [0]
+      args:
+        - 0
+        - 1
+        - 0
+        - 0
+        - 0
   # Left Button
   - trigger: event
     id: zha-button-left-short
@@ -587,7 +596,12 @@ triggers:
       command: step
       endpoint_id: 1
       cluster_id: 8
-      args: [1]
+      args:
+        - 1
+        - 1
+        - 0
+        - 0
+        - 0
   # Center Button
   - trigger: event
     id: zha-button-center-short
